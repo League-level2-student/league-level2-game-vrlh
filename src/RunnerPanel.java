@@ -30,6 +30,10 @@ Surfer surfer = new Surfer(250, 700, 50, 50);
 int rX = 250;
 int rY = 700;
 
+int aisle = 1;
+
+int timeRecorder;
+
 ObjectManager objectManager = new ObjectManager(surfer);
 void updateMenuState() {
 	
@@ -37,6 +41,12 @@ void updateMenuState() {
 void updateGameState() {
 	//surfer.update();
 	objectManager.update();
+	objectManager.manageEnemies();
+	objectManager.checkCollision();
+	objectManager.purgeObjects();
+	if(surfer.isAlive == false) {
+		currentState++;
+	}
 }
 void updateEndState() {
 	
@@ -47,7 +57,7 @@ void drawMenuState(Graphics g) {
 	
 	g.setFont(titleFont);
 	g.setColor(Color.WHITE);
-	g.drawString("LEAGUE INVADERS", 25, 200);
+	g.drawString("Subway Surfer Rip Off", 10, 200);
 	
 	g.setFont(enterFont);
 	g.setColor(Color.WHITE);
@@ -73,7 +83,7 @@ void drawEndState(Graphics g) {
 	
 	g.setFont(killFont);
 	g.setColor(Color.BLACK);
-	g.drawString("You killed enemies", 100, 350);
+	g.drawString("Your score is " + timeRecorder, 100, 350);
 	
 	g.setFont(restartFont);
 	g.setColor(Color.BLACK);
@@ -94,6 +104,11 @@ public void actionPerformed(ActionEvent e) {
   }else if(currentState == END_STATE){
           updateEndState();
   }
+	 if(surfer.isAlive == true) {
+		 timeRecorder++;
+		 System.out.println(timeRecorder);
+	 }
+	 
 }
 
 RunnerPanel(){
@@ -106,6 +121,8 @@ RunnerPanel(){
 	endFont = new Font("Arial", Font.PLAIN, 48);
 	killFont = new Font("Arial", Font.PLAIN, 30);
 	restartFont = new Font("Arial", Font.PLAIN, 30);
+	
+	
 }
 void startGame() {
 	timer.start();
@@ -141,14 +158,33 @@ public void keyPressed(KeyEvent e) {
     }
 	}
 	if(e.getKeyCode() == KeyEvent.VK_LEFT) {
-		rX = rX-surfer.speed;
-		surfer.x = rX;
+		/*rX = rX-surfer.speed;
+		surfer.x = rX;*/
+		aisle = aisle - 1;
+		position();
+		
 	}if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
-		rX = rX+surfer.speed;
-		surfer.x = rX;
+		/*rX = rX+surfer.speed;
+		surfer.x = rX;*/
+		aisle = aisle + 1;
+		position();
 	}
+	
 }
 
+void position() {
+	if (aisle == 0) {
+		surfer.x = 100;
+	}if (aisle == 1) {
+		surfer.x = 225;
+	}if (aisle == 2) {
+		surfer.x = 350;
+	}if (aisle < 0) {
+		aisle = 0;
+	}if (aisle > 2) {
+		aisle = 2;
+	}
+}
 @Override
 public void keyReleased(KeyEvent e) {
 	// TODO Auto-generated method stub
