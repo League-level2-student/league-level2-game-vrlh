@@ -14,6 +14,8 @@ int enemySpawnTime = 1000;
 int score = 0;
 Random randy = new Random();
 
+
+
 void update() {
 	surfer.update();
 	for(int i = 0; i < train.size(); i++) {
@@ -40,7 +42,19 @@ public void manageEnemies(){
     	}if (rand == 2) {
     		trainPosition = 350;
     	}
-            addTrain(new Trains (trainPosition, 0, 50, 50));
+    	
+    	int length = 50;
+    	int rHeight = randy.nextInt(4);
+    	if (rHeight == 0) {
+    		length = 50;
+    	}else if (rHeight == 1) {
+    		length = 100;
+    	}else if (rHeight == 2) {
+    		length = 150;
+    	}else if (rHeight == 3) {
+    		length = 200;
+    	}
+            addTrain(new Trains (trainPosition, 0, 50, length));
 
 enemyTimer = System.currentTimeMillis();
     }

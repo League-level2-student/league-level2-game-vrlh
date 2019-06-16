@@ -25,14 +25,14 @@ Font endFont;
 Font killFont;
 Font restartFont;
 
-Surfer surfer = new Surfer(250, 700, 50, 50);
+Surfer surfer = new Surfer(225, 700, 50, 50);
 
 int rX = 250;
 int rY = 700;
 
 int aisle = 1;
 
-int timeRecorder;
+int timeRecorder = 0;
 
 ObjectManager objectManager = new ObjectManager(surfer);
 void updateMenuState() {
@@ -46,6 +46,19 @@ void updateGameState() {
 	objectManager.purgeObjects();
 	if(surfer.isAlive == false) {
 		currentState++;
+	}
+	
+	if (timeRecorder > 1000) {
+		objectManager.enemySpawnTime = 900;
+		
+	} if (timeRecorder > 2000) {
+		objectManager.enemySpawnTime = 800;
+	} if (timeRecorder > 3000) {
+		objectManager.enemySpawnTime = 700;
+	} if (timeRecorder > 4000) {
+		objectManager.enemySpawnTime = 600;
+	} if (timeRecorder > 5000) {
+		objectManager.enemySpawnTime = 500;
 	}
 }
 void updateEndState() {
@@ -101,13 +114,14 @@ public void actionPerformed(ActionEvent e) {
           updateMenuState();
   }else if(currentState == GAME_STATE){
           updateGameState();
+          if(surfer.isAlive == true) {
+     		 timeRecorder++;
+     		 System.out.println(timeRecorder);
+     	 }
   }else if(currentState == END_STATE){
           updateEndState();
   }
-	 if(surfer.isAlive == true) {
-		 timeRecorder++;
-		 System.out.println(timeRecorder);
-	 }
+	
 	 
 }
 
@@ -156,6 +170,14 @@ public void keyPressed(KeyEvent e) {
 		if(currentState > END_STATE){
             currentState = MENU_STATE;
     }
+		if(currentState == MENU_STATE) {
+			surfer = new Surfer(225, 700, 50, 50);
+			objectManager = new ObjectManager (surfer);
+			aisle = 1;
+			position();
+			timeRecorder = 0;
+			
+		}
 	}
 	if(e.getKeyCode() == KeyEvent.VK_LEFT) {
 		/*rX = rX-surfer.speed;
