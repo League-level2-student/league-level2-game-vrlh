@@ -5,7 +5,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -33,6 +36,10 @@ int rY = 700;
 int aisle = 1;
 
 int timeRecorder = 0;
+double nextTime = 500;
+
+public static BufferedImage surferImg;
+public static BufferedImage trainImg;
 
 ObjectManager objectManager = new ObjectManager(surfer);
 void updateMenuState() {
@@ -48,18 +55,7 @@ void updateGameState() {
 		currentState++;
 	}
 	
-	if (timeRecorder > 1000) {
-		objectManager.enemySpawnTime = 900;
-		
-	} if (timeRecorder > 2000) {
-		objectManager.enemySpawnTime = 800;
-	} if (timeRecorder > 3000) {
-		objectManager.enemySpawnTime = 700;
-	} if (timeRecorder > 4000) {
-		objectManager.enemySpawnTime = 600;
-	} if (timeRecorder > 5000) {
-		objectManager.enemySpawnTime = 500;
-	}
+	
 }
 void updateEndState() {
 	
@@ -116,6 +112,12 @@ public void actionPerformed(ActionEvent e) {
           updateGameState();
           if(surfer.isAlive == true) {
      		 timeRecorder++;
+     		if (timeRecorder > nextTime) {
+     			nextTime=nextTime+=500;
+     			objectManager.enemySpawnTime*=.69;
+     			System.out.println("SPEED: " + objectManager.enemySpawnTime);
+     			objectManager.trainSpeed +=1;
+     		}      		 
      		 System.out.println(timeRecorder);
      	 }
   }else if(currentState == END_STATE){
@@ -136,7 +138,14 @@ RunnerPanel(){
 	killFont = new Font("Arial", Font.PLAIN, 30);
 	restartFont = new Font("Arial", Font.PLAIN, 30);
 	
-	
+try {
+	surferImg =  ImageIO.read(this.getClass().getResourceAsStream("/image/sufer.png"));
+	trainImg =  ImageIO.read(this.getClass().getResourceAsStream("/image/train.png"));
+
+} catch (IOException e) {
+    // TODO Auto-generated catch block
+    e.printStackTrace();
+}
 }
 void startGame() {
 	timer.start();

@@ -10,10 +10,11 @@ ObjectManager (Surfer surfers){
 ArrayList<Trains> train = new ArrayList<>();
 
 long enemyTimer = 0;
-int enemySpawnTime = 1000;
+double enemySpawnTime = 2000;
 int score = 0;
 Random randy = new Random();
 
+int trainSpeed = 5;
 
 
 void update() {
@@ -54,7 +55,7 @@ public void manageEnemies(){
     	}else if (rHeight == 3) {
     		length = 200;
     	}
-            addTrain(new Trains (trainPosition, 0, 50, length));
+            addTrain(new Trains (trainPosition, -length, 50, length, randy.nextInt(3)+trainSpeed));
 
 enemyTimer = System.currentTimeMillis();
     }
@@ -74,5 +75,8 @@ void checkCollision() {
              surfer.isAlive = false;
      }
 	}
+}
+void increaseSpeed() {
+	
 }
 }
