@@ -16,6 +16,8 @@ Random randy = new Random();
 
 int trainSpeed = 5;
 
+boolean ramp = false;
+int i = 0;
 
 void update() {
 	surfer.update();
@@ -46,17 +48,32 @@ public void manageEnemies(){
     	
     	int length = 50;
     	int rHeight = randy.nextInt(4);
+    	boolean rampChooser = randy.nextBoolean();
+    	
+    	
     	if (rHeight == 0) {
     		length = 50;
+    		ramp = false;
     	}else if (rHeight == 1) {
     		length = 100;
+    		ramp = false;
     	}else if (rHeight == 2) {
     		length = 150;
+    		if (rampChooser = true) {
+    			ramp = true;
+    		}
     	}else if (rHeight == 3) {
     		length = 200;
+    		if (rampChooser = true) {
+    			ramp = true;
+    		}
     	}
-            addTrain(new Trains (trainPosition, -length, 50, length, randy.nextInt(3)+trainSpeed));
-
+    	
+ 
+    	
+            addTrain(new Trains (trainPosition, -length, 50, length, randy.nextInt(3)+trainSpeed, ramp));
+            i++;
+    		System.out.println("Train: " + i + " Ramp: " + ramp + " Size: " + length);
 enemyTimer = System.currentTimeMillis();
     }
 }
@@ -72,7 +89,13 @@ void checkCollision() {
 	//System.out.println("ObjectManager, checkCollsision");
 	for(Trains a: train) {
 		 if(surfer.collisionBox.intersects(a.collisionBox)){
+			 if (a.ramp == true) {
+				 surfer.isAlive = true;
+				 System.out.println("RAMP");
+			 }else if (a.ramp == false) {
              surfer.isAlive = false;
+             System.out.println("NO RAMP");
+			 }
      }
 	}
 }

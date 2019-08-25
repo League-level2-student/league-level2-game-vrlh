@@ -40,6 +40,7 @@ double nextTime = 500;
 
 public static BufferedImage surferImg;
 public static BufferedImage trainImg;
+public static BufferedImage rampImg;
 
 ObjectManager objectManager = new ObjectManager(surfer);
 void updateMenuState() {
@@ -141,6 +142,7 @@ RunnerPanel(){
 try {
 	surferImg =  ImageIO.read(this.getClass().getResourceAsStream("/image/sufer.png"));
 	trainImg =  ImageIO.read(this.getClass().getResourceAsStream("/image/train.png"));
+	rampImg = ImageIO.read(this.getClass().getResourceAsStream("/image/ramp.png"));
 
 } catch (IOException e) {
     // TODO Auto-generated catch block
