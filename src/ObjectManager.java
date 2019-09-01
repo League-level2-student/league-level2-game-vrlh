@@ -48,7 +48,7 @@ public void manageEnemies(){
     	
     	int length = 50;
     	int rHeight = randy.nextInt(4);
-    	boolean rampChooser = randy.nextBoolean();
+    	int rampChooser = randy.nextInt(3);
     	
     	
     	if (rHeight == 0) {
@@ -59,12 +59,12 @@ public void manageEnemies(){
     		ramp = false;
     	}else if (rHeight == 2) {
     		length = 150;
-    		if (rampChooser = true) {
+    		if (rampChooser == 0) {
     			ramp = true;
     		}
     	}else if (rHeight == 3) {
     		length = 200;
-    		if (rampChooser = true) {
+    		if (rampChooser == 0) {
     			ramp = true;
     		}
     	}
@@ -91,13 +91,28 @@ void checkCollision() {
 		 if(surfer.collisionBox.intersects(a.collisionBox)){
 			 if (a.ramp == true) {
 				 surfer.isAlive = true;
+				surfer.isOnTrain = true;
+				System.out.println("Surfer is on train");
 				 System.out.println("RAMP");
-			 }else if (a.ramp == false) {
-             surfer.isAlive = false;
-             System.out.println("NO RAMP");
+				 
 			 }
-     }
+			 else if (a.ramp == false) {
+             surfer.isAlive = false;
+             	if(surfer.isOnTrain == true) {
+             	surfer.isAlive = true;
+			 }
+			 	else if(surfer.isOnTrain == false) {
+				 surfer.isAlive = false;
+             //System.out.println("NO RAMP");
+			 }
+					
+				}
+			 break;
 	}
+		surfer.isOnTrain = false; 
+		//System.out.println("Surfer is not on train");
+  }
+	
 }
 void increaseSpeed() {
 	

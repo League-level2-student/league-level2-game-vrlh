@@ -9,6 +9,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -28,7 +29,7 @@ Font endFont;
 Font killFont;
 Font restartFont;
 
-Surfer surfer = new Surfer(225, 700, 50, 50);
+Surfer surfer = new Surfer(225, 700, 50, 50, false);
 
 int rX = 250;
 int rY = 700;
@@ -43,14 +44,19 @@ public static BufferedImage trainImg;
 public static BufferedImage rampImg;
 
 ObjectManager objectManager = new ObjectManager(surfer);
-void updateMenuState() {
-	
+
+
+
+void updateMenuState() {	
+
 }
 void updateGameState() {
 	//surfer.update();
 	objectManager.update();
 	objectManager.manageEnemies();
+	
 	objectManager.checkCollision();
+
 	objectManager.purgeObjects();
 	if(surfer.isAlive == false) {
 		currentState++;
@@ -169,20 +175,20 @@ public void paintComponent(Graphics g){
 @Override
 public void keyTyped(KeyEvent e) {
 	// TODO Auto-generated method stub
-	System.out.println("RunnerPanel Class, keyTyped");
+	//System.out.println("RunnerPanel Class, keyTyped");
 }
 
 @Override
 public void keyPressed(KeyEvent e) {
 	// TODO Auto-generated method stub
-	System.out.println("RunnerPanel Class, keyPressed");
+	//System.out.println("RunnerPanel Class, keyPressed");
 	if(e.getKeyCode() == KeyEvent.VK_ENTER) {
 		currentState++;
 		if(currentState > END_STATE){
             currentState = MENU_STATE;
     }
 		if(currentState == MENU_STATE) {
-			surfer = new Surfer(225, 700, 50, 50);
+			surfer = new Surfer(225, 700, 50, 50, false);
 			objectManager = new ObjectManager (surfer);
 			aisle = 1;
 			position();
@@ -201,6 +207,16 @@ public void keyPressed(KeyEvent e) {
 		surfer.x = rX;*/
 		aisle = aisle + 1;
 		position();
+	}if(e.getKeyCode() == KeyEvent.VK_UP) {
+		if (surfer.isOnTrain == true) {
+			surfer.isAlive = true;
+			System.out.println("JUMP");
+		} 
+		System.out.println("UP");
+	}if(e.getKeyCode() == KeyEvent.VK_SPACE) {
+		JOptionPane.showMessageDialog(null, "Use the left and right arrow keys to move right and left (irrespectively). "
+				+ "Use the up arrow to jump. U can go up Thomas's face train, and try  not to get run over by the whole "
+				+ "Thomas the Train. You can jump from train to train if your good enough. Don't die!");
 	}
 	
 }
@@ -221,6 +237,6 @@ void position() {
 @Override
 public void keyReleased(KeyEvent e) {
 	// TODO Auto-generated method stub
-	System.out.println("RunnerPanel Class, keyReleased");
+	//System.out.println("RunnerPanel Class, keyReleased");
 }
 }
